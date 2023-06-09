@@ -23,6 +23,7 @@ export default {
 			links.push(`<${(await res.json()).html_url}>`);
 		}
 
+		if (links.length < 1) return;
 		await msg.reply(links.join('\n'));
 	},
 };
