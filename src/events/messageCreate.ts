@@ -8,8 +8,6 @@ export default {
 
 		const links = [];
 
-		console.log(matches);
-
 		for (const match of matches) {
 			const res = await fetch(
 				`https://api.github.com/repos/RedstoneTools/redstonetools-mod/issues/${match.replace(
