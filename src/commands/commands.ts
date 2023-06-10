@@ -1,4 +1,5 @@
 import {
+	AutocompleteInteraction,
 	CacheType,
 	ChatInputCommandInteraction,
 	Collection,
@@ -12,12 +13,17 @@ type CommandExecuteFunction = (
 	interaction: ChatInputCommandInteraction<CacheType>,
 ) => Promise<void>;
 
+type CommandAutocompleteFunction = (
+	interaction: AutocompleteInteraction<CacheType>,
+) => Promise<void>;
+
 interface Command {
 	data: SlashCommandBuilder;
 	execute: CommandExecuteFunction;
+	autocomplete: CommandAutocompleteFunction | undefined;
 }
 
-const commands = new Collection<string, CommandExecuteFunction>();
+const commands = new Collection<string, Command>();
 
 const commandFiles = await fs.promises.readdir(__dirname);
 
@@ -27,7 +33,7 @@ for (const commandFile of commandFiles) {
 	const command: Command = (await import(path.join(__dirname, commandFile)))
 		.default;
 
-	commands.set(command.data.name, command.execute);
+	commands.set(command.data.name, command);
 }
 
 export default commands;
