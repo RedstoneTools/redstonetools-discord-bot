@@ -2,6 +2,9 @@ import { Client, Events, GatewayIntentBits } from 'discord.js';
 import config from './config.json' assert { type: 'json' };
 import registerEvents from './events/events.js';
 import deployCommands from './deploy.js';
+import mongoose from 'mongoose';
+
+await mongoose.connect(config.mongo);
 
 const client = new Client({
 	intents: [
