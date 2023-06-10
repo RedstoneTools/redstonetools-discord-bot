@@ -2,6 +2,7 @@ import {
 	AutocompleteInteraction,
 	CacheType,
 	ChatInputCommandInteraction,
+	EmbedBuilder,
 	SlashCommandBuilder,
 } from 'discord.js';
 
@@ -29,7 +30,10 @@ export default {
 				ephemeral: true,
 			});
 
-		await interaction.reply(tag.content);
+		const reply = new EmbedBuilder()
+			.setTitle(tag.name)
+			.setDescription(tag.content);
+		await interaction.reply({ embeds: [reply] });
 	},
 	async autocomplete(interaction: AutocompleteInteraction<CacheType>) {
 		const results = await Tag.find({
