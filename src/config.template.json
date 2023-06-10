@@ -2,5 +2,5 @@
 	"token": "",
 	"guildId": "",
 	"featureRequestsId": "",
-	"mongo": "mongodb://127.0.0.1/test_database"
+	"mongo": "mongodb://mongodb/db"
 }
