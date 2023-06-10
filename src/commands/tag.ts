@@ -23,7 +23,11 @@ export default {
 			name: interaction.options.getString('name'),
 		});
 
-		if (!tag) return;
+		if (!tag)
+			return await interaction.reply({
+				content: 'No tag by that name was found',
+				ephemeral: true,
+			});
 
 		await interaction.reply(tag.content);
 	},
