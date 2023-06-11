@@ -3,7 +3,7 @@ import {
 	ChannelType,
 	ChatInputCommandInteraction,
 	PermissionFlagsBits,
-	SlashCommandBuilder
+	SlashCommandBuilder,
 } from 'discord.js';
 
 import config from '../config.json' assert { type: 'json' };

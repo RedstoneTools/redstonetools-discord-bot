@@ -5,36 +5,36 @@ import {
 	SlashCommandBuilder,
 	PermissionFlagsBits,
 } from 'discord.js';
-import { autocomplete } from './_tagAutocomplete.js';
+import { autocomplete } from './_faqAutocomplete.js';
 
-import { Tag } from '../database.js';
+import { Faq } from '../database.js';
 
 export default {
 	data: new SlashCommandBuilder()
-		.setName('delete-tag')
-		.setDescription('Deletes a tag')
+		.setName('delete-faq')
+		.setDescription('Deletes a faq')
 		.addStringOption(option =>
 			option
 				.setName('name')
 				.setRequired(true)
-				.setDescription('The name of the tag to display')
+				.setDescription('The name of the faq to display')
 				.setAutocomplete(true),
 		)
 		.setDefaultMemberPermissions(PermissionFlagsBits.Administrator),
 
 	async execute(interaction: ChatInputCommandInteraction<CacheType>) {
-		const tag = await Tag.findOneAndDelete({
+		const faq = await Faq.findOneAndDelete({
 			name: interaction.options.getString('name'),
 		});
 
-		if (!tag)
+		if (!faq)
 			return await interaction.reply({
-				content: 'No tag by that name was found',
+				content: 'No faq by that name was found',
 				ephemeral: true,
 			});
 
 		await interaction.reply({
-			content: `Deleted the "${tag.name}" tag.`,
+			content: `Deleted the "${faq.name}" faq.`,
 			ephemeral: true,
 		});
 	},

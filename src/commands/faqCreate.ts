@@ -12,17 +12,23 @@ import {
 
 export default {
 	data: new SlashCommandBuilder()
-		.setName('create-tag')
-		.setDescription('Creates a new tag')
+		.setName('create-faq')
+		.setDescription('Creates a new faq')
 		.setDefaultMemberPermissions(PermissionFlagsBits.Administrator),
 	async execute(interaction: ChatInputCommandInteraction<CacheType>) {
 		const modal = new ModalBuilder()
-			.setCustomId('create-tag')
-			.setTitle('Tag Create');
+			.setCustomId('create-faq')
+			.setTitle('Faq Create');
 
 		const nameInput = new TextInputBuilder()
 			.setCustomId('name')
 			.setLabel('Name: ')
+			.setStyle(TextInputStyle.Short)
+			.setRequired(true);
+
+		const titleInput = new TextInputBuilder()
+			.setCustomId('title')
+			.setLabel('Title: ')
 			.setStyle(TextInputStyle.Short)
 			.setRequired(true);
 
@@ -39,10 +45,14 @@ export default {
 
 		const secondRow =
 			new ActionRowBuilder<ModalActionRowComponentBuilder>().addComponents(
+				titleInput,
+			);
+		const thirdRow =
+			new ActionRowBuilder<ModalActionRowComponentBuilder>().addComponents(
 				contentInput,
 			);
 
-		modal.addComponents(firstRow, secondRow);
+		modal.addComponents(firstRow, secondRow, thirdRow);
 
 		await interaction.showModal(modal);
 	},
