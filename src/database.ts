@@ -9,4 +9,12 @@ const Faq = model(
 	}),
 );
 
-export { Faq };
+const DiscordGitHubSync = model(
+	'DiscordGitHubSync',
+	new Schema({
+		issueNumber: { type: Number, required: true },
+		channelId: { type: String, required: true },
+	}),
+);
+
+export { Faq, DiscordGitHubSync };
