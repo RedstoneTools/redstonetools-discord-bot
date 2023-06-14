@@ -1,8 +1,13 @@
 import config from './config.json' assert { type: 'json' };
-import { App, Octokit } from 'octokit';
+import { App, Octokit, createNodeMiddleware } from 'octokit';
 import { components } from '@octokit/openapi-types';
 
-const app = new App(config.github);
+import { createServer } from 'http';
+
+const app = new App({
+	...config.github,
+	oauth: { clientId: undefined, clientSecret: undefined },
+});
 
 type RepositoryType = components['schemas']['repository'];
 
@@ -15,10 +20,12 @@ let context: {
 	octokit: Octokit | null;
 	repository: RepositoryType | null;
 	repositoryInfo: RepositoryInfo | null;
+	githubApp: App;
 } = {
 	octokit: null,
 	repository: null,
 	repositoryInfo: null,
+	githubApp: app,
 };
 
 for await (const { octokit, repository } of app.eachRepository.iterator()) {
@@ -32,8 +39,11 @@ for await (const { octokit, repository } of app.eachRepository.iterator()) {
 			octokit,
 			repository,
 			repositoryInfo,
+			githubApp: app,
 		};
 	}
 }
+const middleware = createNodeMiddleware(app);
+createServer(middleware).listen(4567);
 
-export const { octokit, repository, repositoryInfo } = context;
+export const { octokit, repository, repositoryInfo, githubApp } = context;

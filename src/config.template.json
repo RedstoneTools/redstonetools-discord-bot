@@ -6,6 +6,9 @@
 	"github": {
 		"appId": 0,
 		"privateKey": "",
-		"url": "https://github.com/redstonetools/redstonetools-mod"
+		"url": "https://github.com/redstonetools/redstonetools-mod",
+		"webhooks": {
+			"secret": ""
+		}
 	}
 }
