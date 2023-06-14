@@ -77,7 +77,7 @@ export default {
 				// labels: ['enhancement'], // Weird type error, gonna have to leave this disabled for now
 			});
 
-			await DiscordGitHubSync.findByIdAndUpdate(
+			await DiscordGitHubSync.findOneAndUpdate(
 				{
 					channelId: interaction.channelId,
 				},
