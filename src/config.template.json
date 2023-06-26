@@ -2,5 +2,13 @@
 	"token": "",
 	"guildId": "",
 	"featureRequestsId": "",
-	"mongo": "mongodb://mongodb/db"
+	"mongo": "mongodb://mongodb/db",
+	"github": {
+		"appId": 0,
+		"privateKey": "",
+		"url": "https://github.com/redstonetools/redstonetools-mod",
+		"webhooks": {
+			"secret": ""
+		}
+	}
 }
