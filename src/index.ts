@@ -1,4 +1,4 @@
-import { ChannelType, Client, Events, GatewayIntentBits } from 'discord.js';
+import { ChannelType, Client, Events, GatewayIntentBits, GuildForumTag } from 'discord.js';
 import config from './config.json' assert { type: 'json' };
 import registerEvents from './events/events.js';
 import deployCommands from './deploy.js';
@@ -31,18 +31,30 @@ app.webhooks.on('issues.closed', async ({ payload }) => {
 	if (!channel.isThread()) return;
 
 	if (channel.parent.type !== ChannelType.GuildForum) return;
+9
+	const implemented = payload.issue.state_reason == "completed"
 
-	const implementedTag = channel.parent.availableTags.find(
-		t => t.name.toLowerCase() === 'implemented',
-	);
+	let tag: GuildForumTag;
 
-	if (!implementedTag) return;
+		if (implemented) {
 
-	await channel.setAppliedTags([...channel.appliedTags, implementedTag.id]);
+	
+		tag = channel.parent.availableTags.find(
+			t => t.name.toLowerCase() === 'implemented',
+		);
+	} else {
+		tag = channel.parent.availableTags.find(
+			t => t.name.toLowerCase() === 'denied'
+		)
+	}
+		if (!tag) return;
 
-	await channel.send(
-		`This feature is marked as implemented <${payload.issue.html_url}>`,
-	);
+		await channel.setAppliedTags([...channel.appliedTags, tag.id]);
+
+		await channel.send(
+			`This feature is marked as ${tag.name.toLowerCase()} <${payload.issue.html_url}>`,
+		);
+	
 
 	await channel.setLocked();
 });
