@@ -66,7 +66,6 @@ export default {
 			}
 
 			await interaction.channel.setAppliedTags([
-				...interaction.channel.appliedTags,
 				approvedTag.id,
 			]);
 
@@ -95,12 +94,19 @@ export default {
 		);
 
 		await interaction.channel.setAppliedTags([
-			...interaction.channel.appliedTags,
 			tagToApply.id,
 		]);
 
 		await interaction.reply('Denied this feature.');
 
 		await interaction.channel.setArchived();
+
+		const sync = await DiscordGitHubSync.findOne({
+			channelId: interaction.channelId
+		})
+
+		if (!sync) return;
+
+		await octokit.rest.issues.update({...repositoryInfo, issue_number: sync.issueNumber, state: "closed", state_reason: "not_planned"});
 	},
 };

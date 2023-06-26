@@ -57,6 +57,7 @@ app.webhooks.on('issues.closed', async ({ payload }) => {
 	
 
 	await channel.setLocked();
+	await channel.setArchived();
 });
 
 client.once(Events.ClientReady, async client => {
