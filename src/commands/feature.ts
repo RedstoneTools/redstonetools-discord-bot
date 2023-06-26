@@ -66,7 +66,6 @@ export default {
 			}
 
 			await interaction.channel.setAppliedTags([
-				...interaction.channel.appliedTags,
 				approvedTag.id,
 			]);
 
@@ -95,7 +94,6 @@ export default {
 		);
 
 		await interaction.channel.setAppliedTags([
-			...interaction.channel.appliedTags,
 			tagToApply.id,
 		]);
 
